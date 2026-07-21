@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Linear Regression Works — Interactive Teaching Tool</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- p5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <!-- TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1><span class="accent">How</span> Linear Regression Works</h1>
+      <p class="subtitle">Click anywhere on the grid to drop a point. A straight line will move on its own, trying to land as close as possible to every point you add.</p>
+    </header>
+
+    <main class="layout">
+      <section class="canvas-panel panel">
+        <div id="canvas-container"></div>
+
+        <div class="stats-bar">
+          <div class="stat">
+            <span class="stat-label">slope (m)</span>
+            <span id="stat-m" class="stat-value">0.000</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">intercept (b)</span>
+            <span id="stat-b" class="stat-value">0.000</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">off by</span>
+            <span id="stat-loss" class="stat-value">–</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">steps taken</span>
+            <span id="stat-iter" class="stat-value">0</span>
+          </div>
+        </div>
+
+        <canvas id="loss-chart" width="560" height="90"></canvas>
+        <p class="chart-label">how far off the line has been, over time</p>
+      </section>
+
+      <aside class="sidebar">
+        <div class="panel controls">
+          <h2>Controls</h2>
+
+          <div class="mode-toggle">
+            <button id="mode-auto" class="mode-btn active" type="button">▶ Watch it move</button>
+            <button id="mode-step" class="mode-btn" type="button">⏭ One step at a time</button>
+          </div>
+
+          <div id="auto-controls" class="control-group">
+            <button id="play-pause-btn" class="primary-btn" type="button">⏸ Pause</button>
+            <label class="slider-label">Speed
+              <input type="range" id="speed-slider" min="1" max="12" value="1" step="1">
+            </label>
+          </div>
+
+          <div id="step-controls" class="control-group hidden">
+            <button id="step-btn" class="primary-btn" type="button">Step ▶</button>
+            <p class="hint">Each click moves the line one small step closer to your points.</p>
+          </div>
+
+          <label class="slider-label">Nudge size
+            <input type="range" id="lr-slider" min="0.01" max="1" value="0.35" step="0.01">
+            <span id="lr-value" class="slider-value">0.35</span>
+          </label>
+
+          <div class="button-row">
+            <button id="random-data-btn" type="button">🎲 Random points</button>
+            <button id="reset-weights-btn" type="button">↺ Reset line</button>
+            <button id="clear-btn" type="button">🗑 Clear points</button>
+          </div>
+        </div>
+
+        <div class="panel explanation">
+          <h2>What the line is doing</h2>
+
+          <div class="formula-card">
+            <div class="formula">y = mx + b</div>
+            <p>This program draws one straight line and keeps adjusting it until it sits as close as possible to every point on the grid.</p>
+            <ul class="formula-legend">
+              <li><span class="var">m</span> is the <strong>slope</strong> — how steep the line is</li>
+              <li><span class="var">b</span> is the <strong>intercept</strong> — where the line starts, on the left edge</li>
+            </ul>
+          </div>
+
+          <div id="explanation-text" class="explanation-body">
+            <p>Click anywhere on the grid to add a point. Once you've added a few, the line will start moving to fit them.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="app-footer">
+      Built with p5.js + TensorFlow.js — by Fiorie Rousselot-Barbe, 2026
+    </footer>
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
